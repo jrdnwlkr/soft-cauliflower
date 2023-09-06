@@ -1,5 +1,8 @@
 const jwt = require('jsonwebtoken');
 
+// Apollo Server
+const { ApolloServer } = require('apollo-server');
+
 // set token secret and expiration date
 const secret = 'mysecretsshhhhh';
 const expiration = '2h';
