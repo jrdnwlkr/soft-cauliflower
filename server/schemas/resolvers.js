@@ -5,13 +5,13 @@ const resolvers = {
         me: async (parent, args, context) => {
             return User.findOne({ _id: context.user._id });
         },
-        getSingleUser: async (parent, { user = null, params }) => {
-        },
+        // getSingleUser: async (parent, { user = null, params }) => {
+        // },
     },
 
     Mutation: {
         login: async (parent, { email, password }) => {
-            const profile = await Profile.findOne({ email });
+            const profile = await User.findOne({ email });
 
             if (!profile) {
                 throw new AuthenticationError('No profile with this email found!');
@@ -26,7 +26,7 @@ const resolvers = {
             const token = signToken(profile);
             return { token, profile };
         },
-        createUser: async (parent, args) => {
+        addUser: async (parent, args) => {
             return User.create(args);
         },
         saveBook: async (parent, args, context) => {
