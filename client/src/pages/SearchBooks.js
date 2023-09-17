@@ -9,16 +9,19 @@ import {
 } from 'react-bootstrap';
 
 import { useQuery, useMutation } from '@apollo/client';
-import { GET_SEARCHED_BOOKS, SAVE_BOOK } from '../utils/mutations';
+import { SAVE_BOOK } from '../utils/mutations';
+import { GET_SEARCHED_BOOKS } from '../utils/queries';
 
 import Auth from '../utils/auth';
+
+import { saveBook, searchGoogleBooks } from '../utils/API';
 
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 
 const SearchBooks = () => {
-  // create state for holding returned google api data
+
   const [searchedBooks, setSearchedBooks] = useState([]);
-  // create state for holding our search field data
+
   const [searchInput, setSearchInput] = useState('');
 
   const { loading, error, data } = useQuery(GET_SEARCHED_BOOKS, {
@@ -31,16 +34,15 @@ const SearchBooks = () => {
 
  
 
-  // create state to hold saved bookId values
+  
   const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
-  // set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
-  // learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
+  
   useEffect(() => {
     return () => saveBookIds(savedBookIds);
-  });
+    }, [savedBookIds]);
 
-  // create method to search for books and set state on form submit
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
