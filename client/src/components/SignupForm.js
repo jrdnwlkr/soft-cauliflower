@@ -23,14 +23,17 @@ const SignupForm = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     console.log(formState);
-
+  
     try {
       const { data } = await addProfile({
         variables: { ...formState },
       });
-
-      Auth.login(data.addProfile.token);
-
+  
+      if (data && data.addProfile && data.addProfile.token) {
+        Auth.login(data.addProfile.token);
+      } else {
+        console.error('Token not found in response.');
+      }
     } catch (e) {
       console.error(e);
     }
